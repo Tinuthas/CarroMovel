@@ -1,10 +1,15 @@
 package br.com.fiap.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -18,21 +23,22 @@ public class Veiculo {
 	@GeneratedValue(generator = "veiculo", strategy = GenerationType.SEQUENCE)
 	private int codigo;
 
-	@Column(name = "ds_placa", length = 9, nullable=false)
+	@Column(name = "ds_placa", length = 9, nullable = false)
 	private String placa;
 
-	@Column(name = "ds_cor", length = 20, nullable=false)
+	@Column(name = "ds_cor", length = 20, nullable = false)
 	private String cor;
 
 	@Column(name = "nr_ano")
 	private int ano;
 
-	public Veiculo(int codigo, String placa, String cor, int ano) {
+	@ManyToMany
+	@JoinTable(name = "T_VEICULO_MOTORISTA", joinColumns = @JoinColumn(name = "cd_veiculo"), inverseJoinColumns = @JoinColumn(name = "cd_motorista"))
+	private List<Motorista> motoristas;
+
+	public Veiculo() {
 		super();
-		this.codigo = codigo;
-		this.placa = placa;
-		this.cor = cor;
-		this.ano = ano;
+		// TODO Auto-generated constructor stub
 	}
 
 	public Veiculo(String placa, String cor, int ano) {
@@ -42,9 +48,12 @@ public class Veiculo {
 		this.ano = ano;
 	}
 
-	public Veiculo() {
+	public Veiculo(int codigo, String placa, String cor, int ano) {
 		super();
-
+		this.codigo = codigo;
+		this.placa = placa;
+		this.cor = cor;
+		this.ano = ano;
 	}
 
 	public int getCodigo() {
@@ -77,6 +86,14 @@ public class Veiculo {
 
 	public void setAno(int ano) {
 		this.ano = ano;
+	}
+
+	public List<Motorista> getMotoristas() {
+		return motoristas;
+	}
+
+	public void setMotoristas(List<Motorista> motoristas) {
+		this.motoristas = motoristas;
 	}
 
 }

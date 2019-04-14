@@ -1,6 +1,7 @@
 package br.com.fiap.entity;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -25,7 +28,7 @@ public class Motorista {
 	@Column(name = "nr_carteira")
 	private int carteira;
 
-	@Column(name = "nm_motorista", length = 150, nullable=false)
+	@Column(name = "nm_motorista", length = 150, nullable = false)
 	private String nome;
 
 	@Temporal(TemporalType.DATE)
@@ -40,21 +43,27 @@ public class Motorista {
 	@Enumerated(EnumType.STRING)
 	private Genero genero;
 
+	@OneToMany(mappedBy = "motorista")
+	private List<Corrida> corridas;
+
+	@ManyToMany(mappedBy = "motoristas")
+	private List<Veiculo> veiculos;
+
 	public Motorista() {
 		super();
 	}
 
-	public Motorista(int carteira, String nome, Calendar dataNascimento, byte[] fotoCarteira, Genero genero) {
+	public Motorista(String nome, Calendar dataNascimento, byte[] fotoCarteira, Genero genero) {
 		super();
-		this.carteira = carteira;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.fotoCarteira = fotoCarteira;
 		this.genero = genero;
 	}
 
-	public Motorista(String nome, Calendar dataNascimento, byte[] fotoCarteira, Genero genero) {
+	public Motorista(int carteira, String nome, Calendar dataNascimento, byte[] fotoCarteira, Genero genero) {
 		super();
+		this.carteira = carteira;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.fotoCarteira = fotoCarteira;
@@ -99,6 +108,22 @@ public class Motorista {
 
 	public void setGenero(Genero genero) {
 		this.genero = genero;
+	}
+
+	public List<Corrida> getCorridas() {
+		return corridas;
+	}
+
+	public void setCorridas(List<Corrida> corridas) {
+		this.corridas = corridas;
+	}
+
+	public List<Veiculo> getVeiculos() {
+		return veiculos;
+	}
+
+	public void setVeiculos(List<Veiculo> veiculos) {
+		this.veiculos = veiculos;
 	}
 
 }
