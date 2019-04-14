@@ -12,4 +12,11 @@ public class PagamentoDAOImpl extends GenericDAOImpl<Pagamento, Integer> impleme
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public double sumPagamentoByPassageiro(int passageiro) {
+		return em.createQuery("select sum(p.valorPagamento) from Pagamento p where p.corrida.passageiro.codigo = :passageiro", Pagamento.class)
+				.setParameter("passageiro", passageiro)
+				.getFirstResult();
+	}
+
 }
